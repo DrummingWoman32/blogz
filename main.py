@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, session, flash
+from flask import Flask, request, redirect, render_template, session, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 import cgi 
 import os 
@@ -43,39 +43,17 @@ class Blog(db.Model):
 @app.route('/', methods=['GET', 'POST'])
 def display_blogs():
 
-    #blogs = Blog.query.all()
-
-    #if request.method == 'GET':
-        #requested_title=request.args.get('title')
-        #requested_title = request.args.get(blogs.query.filter_by(title=requested_title).first())
-        #blog = Blog.query.filter_by(id).all()
-        #requested_title = request.args.get(blog.title)
-        #print("I have the requested title")
-        #if len(request.args) != 0:
-            #render_template('individual_blog.html', requested_title=requested_title)
-        
-        #----------------------------------------------------------------------
-        #prepping some code for use case 2 despite struggling with use case 1
-        
-        #new_blog_entry = Blog(title, body)
-        #new_id = new_blog_entry.id
-
-    #---------------------------------------------------------------------------
-    #if request.method == 'GET':
-        #blogs = Blog.query.all()
-        #title = request.args.get['title']
-    
-    #if len(request.args) != 0:
-        #chosen_blog = blogs.query.filter_by(title=title).first()
-        #render_template('individual_blog.html', chosen_blog.title=title, chosen_blog.body=body)
-
     blogs = Blog.query.all()
     return render_template('blog.html', blogs=blogs)
 
-@app.route('/individual_blog/<int:id>', methods=['POST'])
-def individual_post(id):
-    blog = Blog.query.filter_by(id=id).first()
-    return render_template('individual_blog.html', blog=blog)
+
+@app.route('/individual_blog', methods=['POST', 'GET'])
+def individual_post():
+
+    the_id = request.args.get('id')
+    requested_blog = Blog.query.filter_by(id=the_id).first()
+
+    return render_template('individual_blog.html', blog = requested_blog)
    
 
 
@@ -85,8 +63,6 @@ def new_post():
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
-        print('title -->', title, 'body -->', body)
-        print('body has ', len(body), 'characters')
         title_error = False
         body_error = False
 
@@ -103,7 +79,8 @@ def new_post():
         if body == "":
             body_error = True
             body_error_message = "Please fill in text for the blog"
-
+#http://127.0.0.1:5000/individual_blog?id=49
+#http://127.0.0.1:5000/individual_blog/?id=50
 
 
         if title_error == False and body_error == False:
@@ -112,7 +89,9 @@ def new_post():
             new_blog = Blog(title, body)
             db.session.add(new_blog)
             db.session.commit()
-            return redirect('/')
+            new_id = str(new_blog.id)
+            #return redirect(url_for('./individual_blog', _anchor=new_id))
+            return redirect('/individual_blog?id=' + new_id)
 
         elif title_error == True or body_error == True:
 
