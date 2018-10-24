@@ -18,20 +18,26 @@
 
         <nav>
             <a href="/">Home</a>&nbsp; &nbsp;
-            <a href="/newpost">Add a Blog Entry</a>
+            <a href="/newpost">Add a Blog Entry</a> &nbsp; &nbsp;
+            <a href="/">All Posts</a> &nbsp; &nbsp;
+            <a href="/login">Login</a> &nbsp; &nbsp;
+            <a href="/logout">Logout</a> &nbsp; &nbsp;
         </nav>
 
     </head>
 
     <body>
 
-        {% with messages = get_flashed_messages(with_categories=True) %}
+        <!--I'm kind of already creating the templates with the
+        placeholders...maybe I'll comment this code block for now-->
+
+        <!--{% with messages = get_flashed_messages(with_categories=True) %}
             <ul>
             {% for category,message in messages %}
                 <li class="{{category}}">{{message}}</li>
             {% endfor %}
             </ul>
-        {% endwith %}
+        {% endwith %}-->
 
 
         {% block content %}
