@@ -20,7 +20,9 @@ app.secret_key = 'S\xb7\xdd?\xfb2\xfcw\x9b>\xd0YNg7\xfd'
 
 #left off at third part of 'Functionality Check'
 
-#left off at 'Make a Home Page'
+#left off at 'Create Dynamic User Pages' part where I'm supposed to
+#display the username of author of each blog post in a tagline on the
+#/blog page
 
 
 
@@ -68,6 +70,7 @@ def index():
 def display_blogs():
 
     blogs = Blog.query.all()
+    #users = User.query.all()
     return render_template('blog.html', blogs=blogs)
 
 
@@ -76,8 +79,9 @@ def individual_post():
 
     the_id = request.args.get('id')
     requested_blog = Blog.query.filter_by(id=the_id).first()
+    user = User.query.filter_by(id=the_id).first()
 
-    return render_template('individual_blog.html', blog = requested_blog)
+    return render_template('individual_blog.html', blog = requested_blog, user=user)
    
 
 

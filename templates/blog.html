@@ -11,19 +11,20 @@
 
     <ul>
         {% for blog in blogs %}
+            <!--{% for user in users %}-->
         
-        <li>
+            <li>
             
-            <a href="./individual_blog?id={{blog.id}}"><span class="b_title">{{blog.title}}</span></a>
-            <br>
-            <br>
-            {{blog.body}}
-            <br>
-            <br>
-
-        </li>
+                <a href="./individual_blog?id={{blog.id}}"><span class="b_title">{{blog.title}}</span></a>
+                <br>
+                <br>
+                {{blog.body}}
+                <br>
+                <br>
+                <!--<p>written by <a href="/blog?user={{blog.owner_id}}">{{user.username}}</a></p>-->
+            </li>
         <hr />
-
+            <!--{% endfor %}-->
         {% endfor %}
     </ul>
 

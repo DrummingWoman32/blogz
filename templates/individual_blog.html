@@ -4,12 +4,15 @@
 
 <form>
 
+
     <h1>{{blog.title}}</h1>
    
 
     <body>
         {{blog.body}} 
     </body>
+
+    <p>written by <a href="/blog?user={{blog.owner_id}}">{{user.username}}</a></p>
 
 </form>
 {% endblock %}
