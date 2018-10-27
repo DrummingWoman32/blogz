@@ -12,7 +12,7 @@
         {{blog.body}} 
     </body>
 
-    <p>written by <a href="/blog?user={{blog.owner_id}}">{{user.username}}</a></p>
+    <p>written by <a href="/blog?user={{blog.owner_id}}">{{blog.owner.username}}</a></p>
 
 </form>
 {% endblock %}

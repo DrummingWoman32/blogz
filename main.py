@@ -21,8 +21,9 @@ app.secret_key = 'S\xb7\xdd?\xfb2\xfcw\x9b>\xd0YNg7\xfd'
 #left off at third part of 'Functionality Check'
 
 #left off at 'Create Dynamic User Pages' part where I'm supposed to
-#display the username of author of each blog post in a tagline on the
-#/blog page
+#render the correct template (either the one for the individual blog user 
+# page, or the one for the individual blog entry page) based on the 
+# arguments in the request (i.e., which name the query parameter has).
 
 
 
@@ -65,13 +66,30 @@ def index():
     return render_template('index.html', blog_authors=all_users)
 
 
-
+#this one shows all the blog posts that there are on the app
 @app.route('/blog', methods=['GET', 'POST'])
 def display_blogs():
 
     blogs = Blog.query.all()
-    #users = User.query.all()
-    return render_template('blog.html', blogs=blogs)
+    user_id = request.args.get('id')
+    user = User.query.filter_by(id=user_id).first()
+
+    #so what i"m supposed to do is if query param is user, then use
+    #template for individual user page and pass it a list of all the blogs
+    #associated with that user
+
+    #basically i would need to take the id of the user from the page where
+    #all the blogs are displayed, then filter the blogs by that user id,
+    #convert user id from str to int, and then concatenate it with the
+    #query string for /blogs
+
+    #for one case I attach blog id and the other, i attach user id
+    if user:
+        user_blogs = Blog.query.filter_by(owner_id=user_id).first()
+        return render_template('du_page.html', user_blogs=user_blogs, user=user)
+
+
+    return render_template('blog.html', blogs=blogs, user=user)
 
 
 @app.route('/individual_blog', methods=['POST', 'GET'])

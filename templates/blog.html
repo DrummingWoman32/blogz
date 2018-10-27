@@ -9,28 +9,28 @@
 <p>No blogs yet</p>
 {% else %}
 
+
     <ul>
         {% for blog in blogs %}
-            <!--{% for user in users %}-->
-        
+
             <li>
-            
-                <a href="./individual_blog?id={{blog.id}}"><span class="b_title">{{blog.title}}</span></a>
+                <a href="/individual_blog?id={{blog.id}}">
+                    <span class="b_title">{{blog.title}}</span>
+                </a>
                 <br>
                 <br>
                 {{blog.body}}
                 <br>
                 <br>
-                <!--<p>written by <a href="/blog?user={{blog.owner_id}}">{{user.username}}</a></p>-->
+                <p>written by 
+                    <a href="/blog?user={{user.id}}">{{blog.owner.username}}</a>
+                </p>
             </li>
         <hr />
-            <!--{% endfor %}-->
+
         {% endfor %}
     </ul>
 
 {% endif %}
-
-<!--<hr />-->
-
 
 {% endblock %}

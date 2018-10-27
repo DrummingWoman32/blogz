@@ -3,6 +3,16 @@
 {% block content %}
 
 
+{% for user_blog in user_blogs %}
+
+    <ul>
+        <li><a href="/individual_blog?id={{user_blog.id}}">{{user_blog.title}}</a></li>
+    </ul>
+    <p>written by
+        <a href="/blog?user={{user.id}}">{{user.username}}</a>
+    </p>
+
+{% endfor %}
 
 
 
