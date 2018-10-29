@@ -7,7 +7,7 @@
 {% for blog_author in blog_authors %}
 
     <ul>
-        <li><a href="/{{blog_author.username}}">{{blog_author.username}}</a></li>
+        <li><a href="/du_page?user={{blog_author.id}}">{{blog_author.username}}</a></li>
     </ul>
 
 {% endfor %}
