@@ -4,19 +4,30 @@
 
 <h1>Blog Posts</h1>
 
-{% for user_blog in user_blogs %}
+{% if user_blogs|length == 0 %}
+<p>No blogs yet</p>
+{% else %}
 
     <ul>
-        <li><a href="/individual_blog?id={{user_blog.id}}">
-            <span class="b_title">{{user_blog.title}}</span>
-        </a>
+        {% for user_blog in user_blogs %}
+
+    
+            <li>
+                <a href="/individual_blog?id={{user_blog.id}}">
+                <span class="b_title">{{user_blog.title}}</span>
+                </a>
+                <br>
+                <br>
+                <p>written by
+                    <a href="/individual_user?id={{user_blog.owner_id}}">{{user_blog.owner.username}}</a>
+                </p>
+            </li>
+        <hr />
+    
+        {% endfor %}
+
     </ul>
-    <p>written by
-        <a href="/individual_user?user={{user_blog.owner_id}}">{{user_blog.owner.username}}</a>
-    </p>
 
-{% endfor %}
-
-
+{% endif %}
 
 {% endblock %}
