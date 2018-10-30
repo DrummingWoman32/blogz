@@ -54,10 +54,10 @@ class User(db.Model):
 
 
 @app.before_request
-# def require_login():
-#     #allowed_routes = ['login', 'display_blogs', 'index', 'individual_user' 'signup']
-#     if request.endpoint not in allowed_routes and 'username' not in session:
-#         return redirect('/login')
+def require_login():
+    allowed_routes = ['login', 'display_blogs', 'index', 'individual_user' 'signup']
+    if request.endpoint not in allowed_routes and 'username' not in session:
+        return redirect('/login')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -70,10 +70,7 @@ def index():
     if user:
         user_blogs = Blog.query.filter_by(owner_id=user.id)
         return render_template('du_page.html', user_blogs=user_blogs)
-        #return redirect('/individual_user')
-
-    #above, finding out if what I did in /blog would work
-
+        
 
     return render_template('index.html', blog_authors=all_users)
 
