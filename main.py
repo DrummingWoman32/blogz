@@ -68,8 +68,9 @@ def index():
     user = User.query.filter_by(id=the_id).first()
 
     if user:
-        user_blogs = Blog.query.filter_by(owner_id=user.user_id)
+        user_blogs = Blog.query.filter_by(owner_id=user.id)
         return render_template('du_page.html', user_blogs=user_blogs)
+        #return redirect('/individual_user')
 
     #above, finding out if what I did in /blog would work
 
@@ -217,6 +218,7 @@ def login():
     #else:       
         #return redirect('/signup')
 
+    print("Now at login page.")
     return render_template('login.html')
 
 
