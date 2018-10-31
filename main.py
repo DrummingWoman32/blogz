@@ -20,10 +20,7 @@ app.secret_key = 'S\xb7\xdd?\xfb2\xfcw\x9b>\xd0YNg7\xfd'
 
 #left off at third part of 'Functionality Check'
 
-#left off at 'Create Dynamic User Pages' part where I'm supposed to
-#render the correct template (either the one for the individual blog user 
-# page, or the one for the individual blog entry page) based on the 
-# arguments in the request (i.e., which name the query parameter has).
+#left off at 'Create Dynamic User Pages' use case 2
 
 
 
@@ -55,7 +52,7 @@ class User(db.Model):
 
 @app.before_request
 def require_login():
-    allowed_routes = ['login', 'display_blogs', 'index', 'individual_user', 'signup']
+    allowed_routes = ['login', 'display_blogs', 'index', 'individual_user', 'signup', 'individual_post']
     if request.endpoint not in allowed_routes and 'username' not in session:
         return redirect('/login')
 
@@ -64,12 +61,18 @@ def require_login():
 def index():
 
     all_users = User.query.all()
-    the_id = request.args.get('id')
-    user = User.query.filter_by(id=the_id).first()
+    #user_id = request.args.get('user')
+    #user = User.query.filter_by(id=user_id).first()
+    #above I'm finding the user id
 
-    if user:
-        user_blogs = Blog.query.filter_by(owner_id=user.id)
-        return render_template('du_page.html', user_blogs=user_blogs)
+    #if user_id:
+        #I render the user's page of all his/her blogs
+        # user = User.query.get() #convert user_id to integer
+        # user_blogs = user.blogs
+        
+        # for blog in user_blogs:
+        #     print(str(blog.body))
+        # return render_template('du_page.html', user_blogs=user_blogs)
         
 
     return render_template('index.html', blog_authors=all_users)
@@ -80,8 +83,11 @@ def index():
 @app.route('/individual_user', methods=['GET', 'POST'])   
 def individual_user():
 
-    the_id = request.args.get('owner_id')
+    the_id = request.args.get('id')
     user_blogs = Blog.query.filter_by(owner_id=the_id)
+
+    print(user_blogs)
+  
 
     return render_template('du_page.html', user_blogs=user_blogs)
 
@@ -91,7 +97,7 @@ def individual_user():
 @app.route('/blog', methods=['GET', 'POST'])
 def display_blogs():
 
-    blogs = Blog.query.all()
+    all_blogs = Blog.query.all()
     an_id = request.args.get('id')
     user = User.query.filter_by(id=an_id).first()
 
@@ -122,7 +128,7 @@ def display_blogs():
         #return render_template('individual_blog.html', blog=chosen_blog, user=user)
 
 
-    return render_template('blog.html', blogs=blogs, user=user)
+    return render_template('blog.html', blogs=all_blogs, user=user)
 
 
 @app.route('/individual_blog', methods=['POST', 'GET'])
