@@ -18,11 +18,6 @@ app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 app.secret_key = 'S\xb7\xdd?\xfb2\xfcw\x9b>\xd0YNg7\xfd'
 
-#left off at third part of 'Functionality Check'
-
-#left off at 'Create Dynamic User Pages' use case 2
-
-
 
 class Blog(db.Model):
     
@@ -98,37 +93,18 @@ def individual_user():
 def display_blogs():
 
     all_blogs = Blog.query.all()
-    an_id = request.args.get('id')
-    user = User.query.filter_by(id=an_id).first()
+    blog_id = request.args.get('id')
+    user_id = request.args.get('user')
+    
+    if user_id:
+        #user = User.query.get()
+        #user = User.query.filter_by(id=user_id).first()
+        #user_blogs = user.blogs
+        return render_template('du_page.html', user_blogs=user_blogs)
 
-    #blog_id = request.args.get('id')
-    #chosen_blog = Blog.query.filter_by(id=blog_id).first()
+    
 
-    #so what i"m supposed to do is if query param is user, then use
-    #template for individual user page and pass it a list of all the blogs
-    #associated with that user
-
-    #basically i would need to take the id of the user from the page where
-    #all the blogs are displayed, then filter the blogs by that user id,
-    #convert user id from str to int, and then concatenate it with the
-    #query string for /blogs
-
-    #for one case I attach blog id and the other, i attach user id
-    if user:
-        user_blogs = Blog.query.filter_by(owner_id=user.user_id)
-        return render_template('du_page.html', user_blogs=user_blogs, user=user)
-        #i can tell that the problem is that this part in du_page.html:
-        #<a href="/blog?user={{user.id}}">{{user_blog.owner.username}}</a>
-        #is not getting the user.id value in the url. I'm in the process of
-        #figuring out why
-
-
-
-    #elif chosen_blog:
-        #return render_template('individual_blog.html', blog=chosen_blog, user=user)
-
-
-    return render_template('blog.html', blogs=all_blogs, user=user)
+    return render_template('blog.html', blogs=all_blogs)
 
 
 @app.route('/individual_blog', methods=['POST', 'GET'])
